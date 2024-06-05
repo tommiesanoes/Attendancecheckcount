@@ -47,3 +47,11 @@ top_5_users = ranked_users[ranked_users['rank'] == '1등']['name'].value_counts(
 fig = px.bar(x=top_5_users.values, y=top_5_users.index, orientation='h')
 fig.update_layout(title='출석 빨리 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
 st.plotly_chart(fig)
+
+# 날짜별 유저 수 집계
+daily_users = filtered_df.groupby('date')['name'].count()
+
+# Plotly를 사용하여 라인 그래프 생성
+fig = px.line(x=daily_users.index, y=daily_users.values, labels={'x': 'Date', 'y': 'User Count'})
+fig.update_layout(title='일별 출석수', xaxis_title='날짜', yaxis_title='사용자 수')
+st.plotly_chart(fig)
