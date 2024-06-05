@@ -12,7 +12,7 @@ yesterday_date = current_date - datetime.timedelta(days=1)
 df = pd.read_csv('attendance_data.csv')
 df['date'] = pd.to_datetime(df['date']).dt.date  # Convert datetime to date
 # Remove duplicates
-df.drop_duplicates(subset=['date', 'name'], keep='last', inplace=True)
+df.drop_duplicates(subset=['date', 'name'], keep='first', inplace=True)
 
 # Title
 st.title('출석수 카운트.Beta')
