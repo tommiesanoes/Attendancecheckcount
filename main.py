@@ -36,7 +36,7 @@ top_5_count_users = top_5_count_users.sort_values(by='count', ascending=True)
 fig = px.bar(x=top_5_count_users['count'], y=top_5_count_users['name'], orientation='h')
 # 막대의 색상을 연보라색으로 설정
 fig.update_traces(marker_color='blueviolet')
-fig.update_layout(title='출첵 많이 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
+fig.update_layout(title='출석 많이 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
 st.plotly_chart(fig)
 
 # 시각화를 위한 데이터 처리
