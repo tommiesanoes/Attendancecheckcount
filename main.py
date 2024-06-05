@@ -15,7 +15,7 @@ df['date'] = pd.to_datetime(df['date']).dt.date  # Convert datetime to date
 df.drop_duplicates(subset=['date', 'name'], keep='last', inplace=True)
 
 # Title
-st.title('출첵수 카운트.Beta')
+st.title('출석수 카운트.Beta')
 
 # Date selection widgets
 start_date = st.date_input('이벤트 시작일', datetime.date(2024, 4, 24))
