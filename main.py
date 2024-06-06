@@ -1,55 +1,62 @@
+# streamlit_app.py
 import streamlit as st
 import pandas as pd
 import datetime
 import plotly.express as px
+from streamlit_gsheets import GSheetsConnection
+
+@st.cache_resource
+def load_data():
+    conn = st.connection("gsheets", type=GSheetsConnection)
+    df = conn.read(usecols=[0, 1, 2, 3])
+    df = df.dropna(subset=['date'])
+    df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+    df.drop_duplicates(subset=['date', 'name'], keep='first', inplace=True)
+    return df
+
+df = load_data()
 
 # 현재 날짜 가져오기
-current_date = datetime.date.today()
-# 어제 날짜 계산
+current_date = datetime.datetime.today().date()
+# 현재 날짜에서 하루를 뺀 어제의 날짜 구하기
 yesterday_date = current_date - datetime.timedelta(days=1)
-
-# Load the data
-df = pd.read_csv('attendance_data.csv')
-df['date'] = pd.to_datetime(df['date']).dt.date  # Convert datetime to date
-# Remove duplicates
-df.drop_duplicates(subset=['date', 'name'], keep='first', inplace=True)
+# 데이터프레임에서 최대 날짜를 가져와서 날짜 부분만 추출
+updated_date = df['date'].max().date()
 
 # Title
-st.title('출석수 카운트.Beta')
+st.title('출석수 카운트.B.01')
 
 # Date selection widgets
 start_date = st.date_input('이벤트 시작일', datetime.date(2024, 4, 24))
-end_date = st.date_input('이벤트 종료일', yesterday_date)
+end_date = st.date_input('이벤트 종료일', updated_date)
+# 날짜 변환
+start_date = pd.to_datetime(start_date)
+end_date = pd.to_datetime(end_date)
 
-# Display the selected dates
-st.write('업데이트일:', datetime.date(2024, 6, 4))
-st.write('시작일:', start_date)
-st.write('종료일:', end_date)
+# Update Date
+st.write("<h3>데이터 조회일 : {}~{}</h3>".format(start_date.date(), end_date.date()), unsafe_allow_html=True)
 
 # Filtering based on date range
 filtered_df = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
 
-top_5_count_users = filtered_df['name'].value_counts().reset_index()[:5]
-top_5_count_users = top_5_count_users.sort_values(by='count', ascending=True)
+# 출석 많이 한 사람~!
+top_cnt_users = filtered_df['name'].value_counts().reset_index()[:7]
+top_cnt_users = top_cnt_users.sort_values(by='name', ascending=True)
+# 시각화
+fig_cnt = px.bar(x=top_cnt_users['name'], y=top_cnt_users['index'], orientation='h')
+fig_cnt.update_traces(marker_color='blueviolet')
+fig_cnt.update_layout(title='출석 많이 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
+st.plotly_chart(fig_cnt)
 
-# Plotly를 사용하여 수평 막대 그래프 생성
-fig = px.bar(x=top_5_count_users['count'], y=top_5_count_users['name'], orientation='h')
-# 막대의 색상을 연보라색으로 설정
-fig.update_traces(marker_color='blueviolet')
-fig.update_layout(title='출석 많이 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
-st.plotly_chart(fig)
-
-# 시각화를 위한 데이터 처리
-ranked_users = filtered_df.dropna(subset=['rank'])  # 결측값을 제외한 데이터
-top_5_users = ranked_users[ranked_users['rank'] == '1등']['name'].value_counts()[:5].sort_values(ascending=True)
-
-# Plotly를 사용하여 수평 막대 그래프 생성
-fig = px.bar(x=top_5_users.values, y=top_5_users.index, orientation='h')
-fig.update_layout(title='출석 빨리 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
-st.plotly_chart(fig)
+# 출석 빨리 한 사람~!
+top_fast_users = filtered_df[filtered_df['idx'] == 1]['name'].value_counts()[:5].sort_values(ascending=True)
+# 시각화
+fig_fast = px.bar(x=top_fast_users.values, y=top_fast_users.index, orientation='h')
+fig_fast.update_layout(title='출석 빨리 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
+st.plotly_chart(fig_fast)
 
 # 날짜별 유저 수 집계
-daily_users = filtered_df.groupby('date')['name'].count()
+daily_users = filtered_df.groupby('date')['name'].nunique()
 
 # Plotly를 사용하여 라인 그래프 생성
 fig = px.line(x=daily_users.index, y=daily_users.values, labels={'x': 'Date', 'y': 'User Count'})
