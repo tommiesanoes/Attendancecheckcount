@@ -1,4 +1,3 @@
-# streamlit_app.py
 import streamlit as st
 import pandas as pd
 import datetime
@@ -18,15 +17,13 @@ df = load_data()
 
 # 현재 날짜 가져오기
 current_date = datetime.datetime.today().date()
-# 현재 날짜에서 하루를 뺀 어제의 날짜 구하기
-yesterday_date = current_date - datetime.timedelta(days=1)
 # 데이터프레임에서 최대 날짜를 가져와서 날짜 부분만 추출
 updated_date = df['date'].max().date()
 min_date = df['date'].min().date()
 updated_date_d_1 = updated_date + datetime.timedelta(days=1)
 
 # Title
-st.title('출석수 카운트.B.02')
+st.title('출석수 카운트.B.03')
 
 # Date selection widgets
 start_date = st.date_input('이벤트 시작일', datetime.date(2024, 4, 24))
@@ -36,8 +33,16 @@ end_date_str = end_date
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
-if (start_date >= end_date) or (min_date > start_date):
+if (start_date > end_date) or (min_date > start_date):
     st.error('시작일 다시 선택 해주세요.')
+elif start_date == end_date:
+    st.success('데이터 조회일 : {}'.format(start_date.date()))
+    one_date = df[df['date'] == start_date]
+    one_date = one_date.copy()  # copy() 메서드를 사용하여 슬라이싱된 DataFrame의 복사본을 생성
+    one_date['date'] = one_date['date'].apply(lambda x: pd.to_datetime(x).strftime('%Y-%m-%d'))
+    st.write('출석 한 사람 : ', str(one_date.shape[0]), '명')
+    st.dataframe(one_date)
+
 elif updated_date < end_date:
     st.warning('{} 이후 데이터가 없습니다.'.format(updated_date_d_1))
 else:
