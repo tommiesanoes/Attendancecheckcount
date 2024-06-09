@@ -47,16 +47,17 @@ end_date_str = end_date
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
-if (start_date > end_date) or (min_date > start_date) or (start_date > updated_date):
+# Adjusting date comparison to avoid FutureWarning
+if (start_date.date() > end_date.date()) or (min_date > start_date.date()) or (start_date.date() > updated_date):
     st.error('시작일 다시 선택 해주세요.')
-elif start_date == end_date:
+elif start_date.date() == end_date.date():
     st.success('데이터 조회일 : {}'.format(start_date.date()))
-    one_date = df[df['date'] == start_date]
+    one_date = df[df['date'].dt.date == start_date.date()]
     one_date = one_date.copy()  # 슬라이스된 DataFrame의 복사본 생성
     one_date['date'] = one_date['date'].apply(lambda x: pd.to_datetime(x).strftime('%Y-%m-%d'))
     st.write('출석 한 사람 : ', str(one_date.shape[0]), '명')
     st.dataframe(one_date)
-elif updated_date < end_date:
+elif updated_date < end_date.date():
     st.warning('{} 이후 데이터가 없습니다.'.format(updated_date_d_1))
 else:
     # 날짜 업데이트
