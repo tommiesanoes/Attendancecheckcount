@@ -33,11 +33,9 @@ end_date_str = end_date
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
 
-if (start_date > end_date) or (min_date > start_date):
+if (start_date > end_date) or (min_date > start_date) or (start_date > updated_date):
     st.error('시작일 다시 선택 해주세요.')
-    
-elif (start_date == end_date) and (start_date > update_date):
-    st.warning('{} 이후 데이터가 없습니다.'.format(updated_date_d_1))
+
     
 elif start_date == end_date:
     st.success('데이터 조회일 : {}'.format(start_date.date()))
