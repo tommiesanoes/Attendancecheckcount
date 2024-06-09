@@ -37,7 +37,7 @@ min_date = df['date'].min().date()
 updated_date_d_1 = updated_date + datetime.timedelta(days=1)
 
 # 제목
-st.title('출석수 카운트.B.0.4')
+st.title('출석수 카운트.v.1')
 
 # 날짜 선택 위젯
 start_date = st.date_input('이벤트 시작일', datetime.date(2024, 4, 24))
