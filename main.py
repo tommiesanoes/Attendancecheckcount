@@ -18,8 +18,8 @@ def check_cache():
     # 현재 시간 가져오기
     now = datetime.datetime.now()
 
-    # 캐시 타임스탬프가 없거나 하루 이상 지났다면 캐시를 초기화
-    if 'cache_timestamp' not in st.session_state or (now - st.session_state.cache_timestamp).days >= 1:
+    # 캐시 타임스탬프가 없거나 12시간 이상 지났다면 캐시를 초기화
+    if 'cache_timestamp' not in st.session_state or (now - st.session_state.cache_timestamp).total_seconds() >= 43200:
         st.cache_resource.clear()
         st.session_state.cache_timestamp = now
 
