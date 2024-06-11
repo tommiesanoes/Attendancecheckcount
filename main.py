@@ -23,11 +23,27 @@ def check_cache():
         st.cache_resource.clear()
         st.session_state.cache_timestamp = now
 
+def attend_df(df):
+    # 아이디와 날짜로 그룹화하고 출석 여부 표시
+    attendance_df = df.groupby(['name', 'date']).size().unstack(fill_value=0).reset_index()
+
+    # 출석 여부를 1로 변경
+    attendance_df = attendance_df.set_index('name').applymap(lambda x: 1 if x > 0 else 0).reset_index()
+
+    # 출석 여부 리스트로 변환
+    attendance_df['attendance'] = attendance_df.drop(columns=['name']).values.tolist()
+
+    # 최종 데이터프레임 생성
+    sparkline_df = attendance_df[['name', 'attendance']].rename(columns={'attendance': 'attendance_state'})
+    sparkline_df = sparkline_df[['name', 'attendance_state']]
+    return sparkline_df
+
 # 캐시를 확인하고 초기화할지 결정
 check_cache()
 
 # 데이터 로드
 df = load_data()
+attend_df = attend_df(df)
 
 # 현재 날짜
 current_date = datetime.datetime.today().date()
@@ -35,6 +51,10 @@ current_date = datetime.datetime.today().date()
 updated_date = df['date'].max().date()
 min_date = df['date'].min().date()
 updated_date_d_1 = updated_date + datetime.timedelta(days=1)
+# 캐시 날짜
+cash_date = st.session_state.cache_timestamp
+# 초까지 표시하도록 포맷팅
+cash_date = cash_date.strftime("%Y년 %m월 %d일 %H시 %M분 %S초")
 
 # 제목
 st.title('출석수 카운트.v.1')
@@ -43,6 +63,7 @@ st.title('출석수 카운트.v.1')
 start_date = st.date_input('이벤트 시작일', datetime.date(2024, 4, 24))
 end_date = st.date_input('이벤트 종료일', updated_date)
 end_date_str = end_date
+
 # 날짜 변환
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
@@ -50,6 +71,7 @@ end_date = pd.to_datetime(end_date)
 # Adjusting date comparison to avoid FutureWarning
 if (start_date.date() > end_date.date()) or (min_date > start_date.date()) or (start_date.date() > updated_date):
     st.error('시작일 다시 선택 해주세요.')
+
 elif start_date.date() == end_date.date():
     st.success('데이터 조회일 : {}'.format(start_date.date()))
     one_date = df[df['date'].dt.date == start_date.date()]
@@ -57,8 +79,10 @@ elif start_date.date() == end_date.date():
     one_date['date'] = one_date['date'].apply(lambda x: pd.to_datetime(x).strftime('%Y-%m-%d'))
     st.write('출석 한 사람 : ', str(one_date.shape[0]), '명')
     st.dataframe(one_date)
+
 elif updated_date < end_date.date():
     st.warning('{} 이후 데이터가 없습니다.'.format(updated_date_d_1))
+
 else:
     # 날짜 업데이트
     st.success("데이터 조회일 : {}~{}".format(start_date.date(), end_date.date()))
@@ -89,3 +113,33 @@ else:
     fig = px.line(x=daily_users.index, y=daily_users.values, labels={'x': 'Date', 'y': 'User Count'})
     fig.update_layout(title='일별 출석수', xaxis_title='날짜', yaxis_title='사용자 수')
     st.plotly_chart(fig)
+
+# 사이드바 너비 지정
+st.markdown(
+    """
+    <style>
+        section[data-testid="stSidebar"] {
+            width: 400px !important;  /* Set the width to your desired value */
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+with st.sidebar:
+    st.sidebar.title('스파크차트')
+    st.data_editor(
+        attend_df,
+        width=350,
+        height=600,
+        column_config={
+            "attendance_state": st.column_config.BarChartColumn(
+                "attendance_state",
+                help="1 if attended, 0 if not",
+                y_min=0,
+                y_max=1,
+            ),
+        },
+        hide_index=True,
+    )
+    st.write(cash_date)
