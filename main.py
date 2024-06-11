@@ -13,16 +13,7 @@ def load_data():
     df.drop_duplicates(subset=['date', 'name'], keep='first', inplace=True)
     return df
 
-# 캐시를 초기화할지 여부를 확인하는 함수
-def check_cache():
-    # 현재 시간 가져오기
-    now = datetime.datetime.now()
-
-    # 캐시 타임스탬프가 없거나 12시간 이상 지났다면 캐시를 초기화
-    if 'cache_timestamp' not in st.session_state or (now - st.session_state.cache_timestamp).total_seconds() >= 43200:
-        st.cache_resource.clear()
-        st.session_state.cache_timestamp = now
-
+@st.cache_resource
 def attend_df(df):
     # 아이디와 날짜로 그룹화하고 출석 여부 표시
     attendance_df = df.groupby(['name', 'date']).size().unstack(fill_value=0).reset_index()
@@ -37,6 +28,18 @@ def attend_df(df):
     sparkline_df = attendance_df[['name', 'attendance']].rename(columns={'attendance': 'attendance_state'})
     sparkline_df = sparkline_df[['name', 'attendance_state']]
     return sparkline_df
+    
+# 캐시를 초기화할지 여부를 확인하는 함수
+def check_cache():
+    # 현재 시간 가져오기
+    now = datetime.datetime.now()
+
+    # 캐시 타임스탬프가 없거나 12시간 이상 지났다면 캐시를 초기화
+    if 'cache_timestamp' not in st.session_state or (now - st.session_state.cache_timestamp).total_seconds() >= 43200:
+        st.cache_resource.clear()
+        st.session_state.cache_timestamp = now
+        
+
 
 # 캐시를 확인하고 초기화할지 결정
 check_cache()
