@@ -13,7 +13,7 @@ def load_data():
     df.drop_duplicates(subset=['date', 'name'], keep='first', inplace=True)
     return df
 
-@st.cache
+@st.cache_data
 def attend_df(df):
     # 아이디와 날짜로 그룹화하고 출석 여부 표시
     attendance_df = df.groupby(['name', 'date']).size().unstack(fill_value=0).reset_index()
