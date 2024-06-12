@@ -147,4 +147,3 @@ with st.sidebar:
         },
         hide_index=True,
     )
-    st.write(cash_date)
