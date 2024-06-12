@@ -119,12 +119,19 @@ else:
     fig.update_layout(title='일별 출석수', xaxis_title='날짜', yaxis_title='사용자 수')
     st.plotly_chart(fig)
 
-# 사이드바 너비 지정
+# CSS for responsive sidebar width
 st.markdown(
     """
     <style>
-        section[data-testid="stSidebar"] {
-            width: 400px !important;  /* Set the width to your desired value */
+        @media (max-width: 768px) {
+            section[data-testid="stSidebar"] {
+                width: 200px !important;  /* Width for small screens */
+            }
+        }
+        @media (min-width: 769px) {
+            section[data-testid="stSidebar"] {
+                width: 400px !important;  /* Width for larger screens */
+            }
         }
     </style>
     """,
