@@ -32,17 +32,13 @@ def attend_df(df):
 # 캐시를 초기화할지 여부를 확인하는 함수
 def check_cache():
     now = datetime.datetime.now()
+    current_time = now.time()
 
-    # 캐시 타임스탬프가 없을 때만 초기화
-    if 'cache_timestamp' not in st.session_state:
-        st.session_state.cache_timestamp = now
-
-    # 캐시 타임스탬프가 12시간 이상 지났다면 캐시를 초기화
-    elif (now - st.session_state.cache_timestamp).total_seconds() >= 43200:
+    # 현재 시간이 오전 8시를 지났는지 확인
+    if current_time >= datetime.time(8, 0):
+        # 캐시 초기화
         st.cache_resource.clear()
-        st.session_state.cache_timestamp = now
 
-local_now = datetime.datetime.now().astimezone()
 
 # 캐시를 확인하고 초기화할지 결정
 check_cache()
@@ -159,5 +155,5 @@ with st.sidebar:
         },
         hide_index=True,
     )
-    st.write(local_now.isoformat())
-    st.write(datetime.datetime.now())
+    local_now = datetime.now().astimezone()
+    st.write(local_now.tzname())
