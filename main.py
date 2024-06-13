@@ -56,10 +56,10 @@ current_date = datetime.datetime.today().date()
 updated_date = df['date'].max().date()
 min_date = df['date'].min().date()
 updated_date_d_1 = updated_date + datetime.timedelta(days=1)
-# 캐시 날짜
-cash_date = st.session_state.cache_timestamp
-# 초까지 표시하도록 포맷팅
-cash_date = cash_date.strftime("%Y년 %m월 %d일 %H시 %M분 %S초")
+# # 캐시 날짜
+# cash_date = st.session_state.cache_timestamp
+# # 초까지 표시하도록 포맷팅
+# cash_date = cash_date.strftime("%Y년 %m월 %d일 %H시 %M분 %S초")
 
 # 제목
 st.title('출석수 카운트.v.1')
