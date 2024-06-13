@@ -149,8 +149,8 @@ with st.sidebar:
     st.sidebar.title('스파크차트')
     st.data_editor(
         attend_df,
-        width= none # 350,
-        height= none # 600,
+        width= 350,
+        height= 600,
         column_config={
             "attendance_state": st.column_config.BarChartColumn(
                 "attendance_state",
