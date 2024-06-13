@@ -31,11 +31,11 @@ def attend_df(df):
     
 # 캐시를 초기화할지 여부를 확인하는 함수
 def check_cache():
-    now = datetime.datetime.now()
-    current_time = now.time()
-
-    # 현재 시간이 오전 8시를 지났는지 확인
-    if current_time >= datetime.time(8, 0):
+    local_now = datetime.datetime.now().astimezone()
+    current_time = local_now.time()
+    
+    # 현재 로컬 시간이 오전 8시를 지났는지 확인
+    if current_time >= datetime.time(23, 0):
         # 캐시 초기화
         st.cache_resource.clear()
 
@@ -53,10 +53,6 @@ current_date = datetime.datetime.today().date()
 updated_date = df['date'].max().date()
 min_date = df['date'].min().date()
 updated_date_d_1 = updated_date + datetime.timedelta(days=1)
-# # 캐시 날짜
-# cash_date = st.session_state.cache_timestamp
-# # 초까지 표시하도록 포맷팅
-# cash_date = cash_date.strftime("%Y년 %m월 %d일 %H시 %M분 %S초")
 
 # 제목
 st.title('출석수 카운트.v.1')
@@ -155,5 +151,3 @@ with st.sidebar:
         },
         hide_index=True,
     )
-    local_now = datetime.datetime.now().astimezone()
-    st.write(local_now.tzname())
