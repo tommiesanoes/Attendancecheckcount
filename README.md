@@ -1,21 +1,21 @@
 # 출첵수 카운트
 Version 1
 
-업데이트일 : 2024-06-06
+### 업데이트일 : 2024-06-06
 1. 메세지 추가
 2. error 메세지, success 메세지, warnings 메세지 업데이트
 
-업데이트일 : 2024-06-10
+### 업데이트일 : 2024-06-10
 1. 세션 초기화(하루 단위)
 2. 12시간으로 변경
 
-업데이트일 : 2024-06-12
+### 업데이트일 : 2024-06-12
 1. 사이드 바 스파크 차트 추가
 2. 캐시 날짜 기입
 
-업데이트일 : 2024-06-13
+### 업데이트일 : 2024-06-13
 1. 사이드 바 스파크 차트 추가 -> 아이폰 사파리 #185 error가 뜸
-### 오류 내용
+오류 내용
 ```
 Error: Minified React error #185; 
 visit https://reactjs.org/docs/error-decoder.html?invariant=185 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
