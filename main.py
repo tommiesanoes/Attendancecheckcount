@@ -119,30 +119,30 @@ else:
     fig.update_layout(title='일별 출석수', xaxis_title='날짜', yaxis_title='사용자 수')
     st.plotly_chart(fig)
 
-# CSS for responsive sidebar width
-st.markdown(
-    """
-    <style>
-        @media (max-width: 768px) {
-            section[data-testid="stSidebar"] {
-                width: 250px !important;
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100%;
-                z-index: 1000;
-                overflow-y: auto;
-            }
-        }
-        @media (min-width: 769px) {
-            section[data-testid="stSidebar"] {
-                width: 350px !important;
-            }
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+# # CSS for responsive sidebar width
+# st.markdown(
+#     """
+#     <style>
+#         @media (max-width: 768px) {
+#             section[data-testid="stSidebar"] {
+#                 width: 250px !important;
+#                 position: fixed;
+#                 left: 0;
+#                 top: 0;
+#                 height: 100%;
+#                 z-index: 1000;
+#                 overflow-y: auto;
+#             }
+#         }
+#         @media (min-width: 769px) {
+#             section[data-testid="stSidebar"] {
+#                 width: 350px !important;
+#             }
+#         }
+#     </style>
+#     """,
+#     unsafe_allow_html=True,
+# )
 
 with st.sidebar:
     st.sidebar.title('스파크차트')
