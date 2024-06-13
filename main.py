@@ -125,13 +125,7 @@ st.markdown(
     <style>
         @media (max-width: 768px) {
             section[data-testid="stSidebar"] {
-                width: 250px !important;
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100%;
-                z-index: 1000;
-                overflow-y: auto;
+                display: none !important;
             }
         }
         @media (min-width: 769px) {
