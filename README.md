@@ -38,3 +38,4 @@ rc@https://choyoringattendancelist.streamlit.app/~/+/static/js/main.7e42f54d.js:
 ns@https://choyoringattendancelist.streamlit.app/~/+/static/js/main.7e42f54d.js:2:2264194
 @https://choyoringattendancelist.streamlit.app/~/+/static/js/8148.a17a918e.chunk.js:1:47204
 ```
+2. 사이드 바 오류 -> css 사이드바 안보이게 작업
