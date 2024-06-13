@@ -144,39 +144,13 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# 데이터 편집기의 크기를 조정하기 위한 JavaScript
-st.markdown(
-    """
-    <script>
-        function resizeDataEditor() {
-            const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
-            const dataEditor = document.querySelector('.element-container .stDataEditor');
-
-            if (dataEditor) {
-                if (isSmallScreen) {
-                    dataEditor.style.width = '100%';
-                    dataEditor.style.height = 'auto';
-                } else {
-                    dataEditor.style.width = '350px';
-                    dataEditor.style.height = '600px';
-                }
-            }
-        }
-
-        window.addEventListener('resize', resizeDataEditor);
-        window.addEventListener('DOMContentLoaded', resizeDataEditor);
-    </script>
-    """,
-    unsafe_allow_html=True,
-)
-
 # 사이드바 내용
 with st.sidebar:
     st.sidebar.title('스파크차트')
     st.data_editor(
         attend_df,
-        width=350,
-        height=600,
+        width= none # 350,
+        height= none # 600,
         column_config={
             "attendance_state": st.column_config.BarChartColumn(
                 "attendance_state",
