@@ -155,5 +155,5 @@ with st.sidebar:
         },
         hide_index=True,
     )
-    local_now = datetime.now().astimezone()
+    local_now = datetime.datetime.now().astimezone()
     st.write(local_now.tzname())
