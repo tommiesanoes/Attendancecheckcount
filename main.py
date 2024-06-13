@@ -125,12 +125,18 @@ st.markdown(
     <style>
         @media (max-width: 768px) {
             section[data-testid="stSidebar"] {
-                width: 200px !important;  /* Width for small screens */
+                width: 250px !important;
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100%;
+                z-index: 1000;
+                overflow-y: auto;
             }
         }
         @media (min-width: 769px) {
             section[data-testid="stSidebar"] {
-                width: 400px !important;  /* Width for larger screens */
+                width: 350px !important;
             }
         }
     </style>
