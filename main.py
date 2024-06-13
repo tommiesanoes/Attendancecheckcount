@@ -42,6 +42,7 @@ def check_cache():
         st.cache_resource.clear()
         st.session_state.cache_timestamp = now
 
+local_now = datetime.datetime.now().astimezone()
 
 # 캐시를 확인하고 초기화할지 결정
 check_cache()
@@ -158,3 +159,4 @@ with st.sidebar:
         },
         hide_index=True,
     )
+    st.write(local_now.isoformat())
