@@ -102,6 +102,7 @@ else:
     fig_cnt = px.bar(x=top_cnt_users['name'], y=top_cnt_users['index'], orientation='h')
     fig_cnt.update_traces(marker_color='blueviolet')
     fig_cnt.update_layout(title='출석 많이 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
+    fig_cnt.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=300)
     st.plotly_chart(fig_cnt, use_container_width=True)
 
     # 출석 빨리 한 사람
@@ -109,6 +110,7 @@ else:
     # 시각화
     fig_fast = px.bar(x=top_fast_users.values, y=top_fast_users.index, orientation='h')
     fig_fast.update_layout(title='출석 빨리 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
+    fig_fast.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=300)
     st.plotly_chart(fig_fast, use_container_width=True)
 
     # 날짜별 유저 수 집계
@@ -117,6 +119,7 @@ else:
     # Plotly를 사용하여 라인 그래프 생성
     fig = px.line(x=daily_users.index, y=daily_users.values, labels={'x': 'Date', 'y': 'User Count'})
     fig.update_layout(title='일별 출석수', xaxis_title='날짜', yaxis_title='사용자 수')
+    fig.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=300)
     st.plotly_chart(fig, use_container_width=True)
 
 # 사이드바를 위한 CSS
