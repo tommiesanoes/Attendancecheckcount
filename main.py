@@ -119,31 +119,58 @@ else:
     fig.update_layout(title='일별 출석수', xaxis_title='날짜', yaxis_title='사용자 수')
     st.plotly_chart(fig)
 
-# # CSS for responsive sidebar width
-# st.markdown(
-#     """
-#     <style>
-#         @media (max-width: 768px) {
-#             section[data-testid="stSidebar"] {
-#                 width: 250px !important;
-#                 position: fixed;
-#                 left: 0;
-#                 top: 0;
-#                 height: 100%;
-#                 z-index: 1000;
-#                 overflow-y: auto;
-#             }
-#         }
-#         @media (min-width: 769px) {
-#             section[data-testid="stSidebar"] {
-#                 width: 350px !important;
-#             }
-#         }
-#     </style>
-#     """,
-#     unsafe_allow_html=True,
-# )
+# 사이드바를 위한 CSS
+st.markdown(
+    """
+    <style>
+        @media (max-width: 768px) {
+            section[data-testid="stSidebar"] {
+                width: 250px !important;
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100%;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+        }
+        @media (min-width: 769px) {
+            section[data-testid="stSidebar"] {
+                width: 350px !important;
+            }
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
+# 데이터 편집기의 크기를 조정하기 위한 JavaScript
+st.markdown(
+    """
+    <script>
+        function resizeDataEditor() {
+            const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+            const dataEditor = document.querySelector('.element-container .stDataEditor');
+
+            if (dataEditor) {
+                if (isSmallScreen) {
+                    dataEditor.style.width = '100%';
+                    dataEditor.style.height = 'auto';
+                } else {
+                    dataEditor.style.width = '350px';
+                    dataEditor.style.height = '600px';
+                }
+            }
+        }
+
+        window.addEventListener('resize', resizeDataEditor);
+        window.addEventListener('DOMContentLoaded', resizeDataEditor);
+    </script>
+    """,
+    unsafe_allow_html=True,
+)
+
+# 사이드바 내용
 with st.sidebar:
     st.sidebar.title('스파크차트')
     st.data_editor(
