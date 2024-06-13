@@ -160,3 +160,4 @@ with st.sidebar:
         hide_index=True,
     )
     st.write(local_now.isoformat())
+    st.write(datetime.datetime.now())
