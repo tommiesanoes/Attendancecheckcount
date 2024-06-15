@@ -30,9 +30,6 @@ def attend_df(df):
     return sparkline_df
     
 
-# 캐시를 확인하고 초기화할지 결정
-check_cache()
-
 # 데이터 로드
 df = load_data()
 attend_df = attend_df(df)
