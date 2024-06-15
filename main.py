@@ -4,7 +4,7 @@ import datetime
 import plotly.express as px
 from streamlit_gsheets import GSheetsConnection
 
-@st.cache_resource
+@st.cache_resource(ttl=43200)
 def load_data():
     conn = st.connection("gsheets", type=GSheetsConnection)
     df = conn.read(usecols=[0, 1, 2, 3])
@@ -13,7 +13,7 @@ def load_data():
     df.drop_duplicates(subset=['date', 'name'], keep='first', inplace=True)
     return df
 
-@st.cache_data
+@st.cache_data(ttl=43200)
 def attend_df(df):
     # 아이디와 날짜로 그룹화하고 출석 여부 표시
     attendance_df = df.groupby(['name', 'date']).size().unstack(fill_value=0).reset_index()
@@ -29,16 +29,6 @@ def attend_df(df):
     sparkline_df = sparkline_df[['name', 'attendance_state']]
     return sparkline_df
     
-# 캐시를 초기화할지 여부를 확인하는 함수
-def check_cache():
-    local_now = datetime.datetime.now().astimezone()
-    current_time = local_now.time()
-    
-    # 현재 로컬 시간이 오전 8시를 지났는지 확인
-    if current_time >= datetime.time(23, 0):
-        # 캐시 초기화
-        st.cache_resource.clear()
-
 
 # 캐시를 확인하고 초기화할지 결정
 check_cache()
