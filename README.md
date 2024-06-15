@@ -40,3 +40,6 @@ ns@https://choyoringattendancelist.streamlit.app/~/+/static/js/main.7e42f54d.js:
 ```
 2. 사이드 바 오류 -> css 사이드바 안보이게 작업
 3. 오전 8시 캐시 초기화로 변경
+
+### 업데이트일 : 2024-06-15
+1. 캐시데이터 유효기간으로 변경(ttl) 12h
