@@ -1,5 +1,5 @@
 streamlit==1.22
 git+https://github.com/streamlit/gsheets-connection
-plotly
-pandas 
-numpy 
+plotly==5.22.0
+pandas==2.2.2
+numpy==1.26.4
