@@ -29,6 +29,14 @@ def attend_df(df):
     sparkline_df = sparkline_df[['name', 'attendance_state']]
     return sparkline_df
     
+# 상호작용 비활성화 설정
+config = {
+    'staticPlot': True,          # 차트를 정적 이미지로 표시
+    'scrollZoom': False,         # 스크롤을 통한 줌 비활성화
+    'doubleClick': 'reset',      # 더블클릭 시 줌 리셋 비활성화
+    'showTips': False,           # 차트 툴팁 비활성화
+    'displayModeBar': False      # 모드바 (상단 툴바) 비활성화
+}
 
 # 데이터 로드
 df = load_data()
@@ -83,7 +91,7 @@ else:
     fig_cnt.update_traces(marker_color='blueviolet')
     fig_cnt.update_layout(title='출석 많이 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
     fig_cnt.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=300)
-    st.plotly_chart(fig_cnt, use_container_width=True, on_select = 'ignore')
+    st.plotly_chart(fig_cnt, use_container_width=True, config=config)
 
     # 출석 빨리 한 사람
     top_fast_users = filtered_df[filtered_df['idx'] == 1]['name'].value_counts()[:5].sort_values(ascending=True)
@@ -91,7 +99,7 @@ else:
     fig_fast = px.bar(x=top_fast_users.values, y=top_fast_users.index, orientation='h')
     fig_fast.update_layout(title='출석 빨리 한 사람~!', xaxis_title = 'Count' ,yaxis_title='User')
     fig_fast.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=300)
-    st.plotly_chart(fig_fast, use_container_width=True, on_select = 'ignore')
+    st.plotly_chart(fig_fast, use_container_width=True, config=config)
 
     # 날짜별 유저 수 집계
     daily_users = filtered_df.groupby('date')['name'].nunique()
@@ -100,7 +108,7 @@ else:
     fig = px.line(x=daily_users.index, y=daily_users.values, labels={'x': 'Date', 'y': 'User Count'})
     fig.update_layout(title='일별 출석수', xaxis_title='날짜', yaxis_title='사용자 수')
     fig.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=300)
-    st.plotly_chart(fig, use_container_width=True, on_select = 'ignore')
+    st.plotly_chart(fig, use_container_width=True, config=config)
 
 # 사이드바를 위한 CSS
 st.markdown(
