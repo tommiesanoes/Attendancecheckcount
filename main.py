@@ -110,25 +110,6 @@ else:
     fig.update_layout(margin=dict(l=20, r=20, t=30, b=20), height=300)
     st.plotly_chart(fig, use_container_width=True, config=config)
 
-# # 사이드바를 위한 CSS
-# st.markdown(
-#     """
-#     <style>
-#         @media (max-width: 768px) {
-#             section[data-testid="stSidebar"] {
-#                 display: none !important;
-#             }
-#         }
-#         @media (min-width: 769px) {
-#             section[data-testid="stSidebar"] {
-#                 width: 350px !important;
-#             }
-#         }
-#     </style>
-#     """,
-#     unsafe_allow_html=True,
-# )
-
 # 사이드바를 위한 CSS
 st.markdown(
     """
@@ -142,15 +123,6 @@ st.markdown(
             section[data-testid="stSidebar"] {
                 width: 350px !important;
             }
-        }
-        /* --gdg-accent-color 변경 */
-        :root {
-            --gdg-accent-color: #00ff00; /* 변경할 색상 코드 입력 */
-        }
-
-        /* --gdg-resize-indicator-color 변경 */
-        :root {
-            --gdg-resize-indicator-color: #00ff00; /* 변경할 색상 코드 입력 */
         }
     </style>
     """,
