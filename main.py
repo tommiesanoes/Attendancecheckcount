@@ -137,7 +137,7 @@ with st.sidebar:
         width= 350,
         height= 600,
         column_config={
-            "attendance_state": st.column_config.BarChartColumn(
+            "attendance_state": st.column_config.LineChartColumn(
                 "attendance_state",
                 help="1 if attended, 0 if not",
                 y_min=0,
